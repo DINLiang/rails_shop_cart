@@ -1,0 +1,49 @@
+.all_page
+{
+  width: 1100px;
+  height: 580px;
+  margin: 20px 0 0 90px;
+  border: 1px solid lightgray;
+}
+.good_list
+{
+  height: 80px;
+  width: 100%;
+  text-align: center;
+  padding-top: 15px;
+  font-size: 40px;
+  background-color: #dcdcdc;
+}
+#list
+{
+  border: 0 solid lightgray;
+  margin: 10px 30px 0 30px;
+  border-collapse: collapse;
+}
+#list th, #list td
+{
+  font-size: 15px;
+  padding: 10px 30px 10px 30px;
+  text-align: center;
+  height: 15px;
+}
+#list #sort
+{
+  width: 200px;
+}
+#list #name
+{
+  width: 200px;
+}
+#list #price
+{
+  width: 200px;
+}
+#list #unit
+{
+  width: 60px;
+}
+#list #cart
+{
+  width: 300px;
+}

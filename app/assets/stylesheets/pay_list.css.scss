@@ -1,0 +1,102 @@
+.all_page
+{
+  width: 1100px;
+  height: 900px;
+  margin: 20px 0 0 90px;
+  border: 1px solid lightgray;
+}
+.good_list
+{
+  height: 60px;
+  width: 96.4%;
+  padding-top: 30px;
+  padding-left: 40px;
+  font-size: 25px;
+  background-color: rgb(245, 245, 245);
+}
+#lists
+{
+  border: 0 solid lightgray;
+  margin: 15px 10px 0 25px;
+  border-collapse: collapse;
+}
+#free_lists
+{
+  border: 0 solid lightgray;
+  margin: 15px 10px 0 25px;
+  border-collapse: collapse;
+}
+#lists th,#lists td
+{
+  font-size: 15px;
+  padding: 10px 30px 10px 30px;
+  text-align: center;
+  height: 15px;
+}
+#free_lists th,#free_lists td
+{
+  font-size: 15px;
+  padding: 10px 30px 10px 30px;
+  text-align: center;
+  height: 15px;
+}
+#sort
+{
+  width: 70px;
+}
+#name
+{
+  width: 100px;
+}
+#price
+{
+  width: 100px;
+}
+#unit
+{
+  width: 50px;
+}
+#cart
+{
+  width: 180px;
+}
+#count
+{
+  width: 180px;
+}
+.sure
+{
+  float: right;
+  margin-right: -80px;
+  padding: 10px 20px;
+  font-size: 15px;
+  margin-top: 80px;
+}
+.save_count
+{
+  float: right;
+  margin-right: 50px;
+  margin-top: 70px;
+}
+.all_count
+{
+  float: right;
+  margin-right: -70px;
+  margin-top: 30px;
+}
+#oder
+{
+  width: 287px;
+}
+#tag
+{
+  width: 287px;
+}
+#amount
+{
+  width: 287px;
+}
+#time
+{
+  margin-left: 25px;
+}
