@@ -36,11 +36,12 @@
       <th><%= p.price %></th>
       <th><%= p.unit %></th>
       <th><%= p.count %></th>
+      <th><%= p.sum %></th>
     </tr>
     <% end %>
     </thead>
   </table>
-  <div class="all_count">总计：<span id="sum"></span></div>
+  <div class="all_count">总计：<span id="sum"><%= @sum_total%></span></div>
   <button class="git" type="submit" onclick="location.href='pay_list.html'" style = "background-color:rgb(88, 135, 207);color:white;border-radius: 5px">付款</button>
 </div>
 </body>
