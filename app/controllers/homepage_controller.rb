@@ -30,7 +30,7 @@ class HomepageController < ApplicationController
     @goods = CartList.all
     @sum_total = 0
     @goods.each do |k|
-    @sum_total += @goods[k].sum
+      @sum_total += k.sum
     end
   end
 end
