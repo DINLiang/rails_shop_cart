@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150420021551) do
+ActiveRecord::Schema.define(version: 20150422033106) do
 
   create_table "cart_lists", force: true do |t|
     t.string   "sort"
@@ -21,6 +21,22 @@ ActiveRecord::Schema.define(version: 20150420021551) do
     t.integer  "count"
     t.float    "sum"
     t.integer  "shop_list_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "barcode"
+  end
+
+  create_table "free_goods", force: true do |t|
+    t.string   "barcode"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "free_lists", force: true do |t|
+    t.string   "sort"
+    t.string   "name"
+    t.integer  "count"
+    t.string   "barcode"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

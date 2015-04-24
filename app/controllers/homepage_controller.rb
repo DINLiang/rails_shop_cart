@@ -21,11 +21,12 @@ class HomepageController < ApplicationController
       list.price = shop.price
       list.count = 1
       list.sum = shop.price
-      #list.shop_id = shop.id
+      list.barcode = shop.barcode
       list.save
     end
     redirect_to "/homepage/shop_list"
   end
+
   def shopping_cart
     @goods = CartList.all
     @sum_total = 0
@@ -33,4 +34,39 @@ class HomepageController < ApplicationController
       @sum_total += k.sum
     end
   end
+
+  def free_list
+    @goods = CartList.all
+    @free_goods = FreeGoods.all
+    for i in @goods
+      for j in @free_goods
+        if i.barcode == j.barcode
+          cart = FreeList.find_by_name(i.name)
+          if  cart
+            cart.count = (i.count / 3).to_i
+            cart.save
+          else
+            list = FreeList.new
+            list.name = i.name
+            list.sort = i.sort
+            list.count = (i.count / 3).to_i
+            list.save
+          end
+        end
+      end
+    end
+    redirect_to "/homepage/pay_list"
+  end
+
+  def pay_list
+    @goods = CartList.all
+    @free_list = FreeList.all
+  end
+  def clear_goods
+     CartList.all.delete_all
+     FreeList.all.delete_all
+    redirect_to "homepage/shop_list"
+  end
+
+
 end
