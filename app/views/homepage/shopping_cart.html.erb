@@ -24,20 +24,31 @@
       <th id="unit">单位</th><th id="cart">数量</th><th id="count">小计</th>
     </tr>
     <% @goods.each do |p| %>
+        <% if p.free_count.to_i <= 0 %>
     <tr>
       <th><%= p.sort %></th>
       <th><%= p.name %></th>
       <th><%= p.price %></th>
       <th><%= p.unit %></th>
-      <th><input type="button" id='+ btn_id +' value="-" onclick="reduce_good();jump_goods()" style = "background-color: white;height: 30px;width: 30px;;border-bottom-left-radius: 5px;border-top-left-radius: 5px;border:1px solid lightgray"><input
-      value= '<%= p.count %>'  style="width: 35px;height:26px;text-align:center;border:1px solid lightgray" ><input type="button" id='+ key_id +' value="+" onclick="add_good();document.location.reload()" style = "background-color: white;height: 30px;width: 30px;;border-bottom-right-radius: 5px;border-top-right-radius: 5px;border:1px solid lightgray"></th>
-      <th><%= p.sum %></th>
+      <th><button onclick=" jump_good() " style = "background-color: #ffffff;height: 30px;width: 30px;;border-bottom-left-radius: 5px;border-top-left-radius: 5px;border:1px solid lightgray"><%= link_to '-','/homepage/reduce_goods?id='+p.id.to_s %></button><input value= '<%= p.count %>'  style="width: 35px;height:26px;text-align:center;border:1px solid lightgray" ><button style = "background-color: white;height: 30px;width: 30px;;border-bottom-right-radius: 5px;border-top-right-radius: 5px;border:1px solid lightgray"><%= link_to '+','/homepage/add_goods?id=' + p.id.to_s %></button></th>
+      <th><%= p.sum.to_s + '元' %></th>
     </tr>
+        <% else %>
+            <tr>
+            <th><%= p.sort %></th>
+            <th><%= p.name %></th>
+            <th><%= p.price %></th>
+            <th><%= p.unit %></th>
+            <th><button style = "background-color: #ffffff;height: 30px;width: 30px;;border-bottom-left-radius: 5px;border-top-left-radius: 5px;border:1px solid lightgray"><%= link_to '-','/homepage/reduce_goods?id='+p.id.to_s  %></button><input value= '<%= p.count %>'  style="width: 35px;height:26px;text-align:center;border:1px solid lightgray" ><button style = "background-color: white;height: 30px;width: 30px;;border-bottom-right-radius: 5px;border-top-right-radius: 5px;border:1px solid lightgray"><%= link_to '+','/homepage/add_goods?id=' + p.id.to_s %></button></th>
+              <th><%= (p.price * (p.count.to_i - p.free_count.to_i)).to_s + '元（原价：'+ p.sum.to_s + '元）' %></th>
+           </tr>
+        <% end %>
     <% end %>
     </thead>
   </table>
-  <div class="all_count">总计：<span id="sum"><%= @sum_total %></span></div>
+  <div class="all_counts">总计：<span id="sum"><%= @sum_total %>元</span></div>
   <button class="git" type="submit" onclick="location.href='pay_list.html'; get_cart()" style = "background-color:rgb(88, 135, 207);color:white;border-radius: 5px">付款</button>
 </div>
 </body>
 </html>
+

@@ -10,7 +10,11 @@ Shopcart::Application.routes.draw do
   get "/homepage/pay_list" => 'homepage#pay_list'
   get  "/homepage/add_cart"
   post "/homepage/shopping_cart" => 'homepage#free_list'
+  get "/homepage/reduce_goods"
+  get "/homepage/add_goods"
+  post "/homepage/shopping_cart" => 'homepage#jump_goods'
   post "/homepage/pay_list" => 'homepage#clear_goods'
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

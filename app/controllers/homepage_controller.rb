@@ -7,13 +7,6 @@ class HomepageController < ApplicationController
     end
     @cart_num = @cart_num
   end
-  # def get_cart_num
-  #   @number = CartList.all
-  #   @@cart_num = 0
-  #   @number.each do |i|
-  #     @@cart_num += i.count
-  #   end
-  # end
   def shop_list
      @list = ShopList.all
      @cart_num = @cart_num
@@ -33,41 +26,82 @@ class HomepageController < ApplicationController
       cart.sum = cart.count * cart.price
       cart.save
     else
-      list = CartList.new
-      list.name = shop.name
-      list.sort = shop.sort
-      list.barcode = shop.barcode
-      list.unit = shop.unit
-      list.price = shop.price
-      list.count = 1
-      list.sum = shop.price
-      list.barcode = shop.barcode
-      list.save
+      cart = CartList.new
+      cart.name = shop.name
+      cart.sort = shop.sort
+      cart.barcode = shop.barcode
+      cart.unit = shop.unit
+      cart.price = shop.price
+      cart.count = 1
+      cart.sum = shop.price
+      cart.barcode = shop.barcode
+      cart.save
+    end
+    if FreeGoods.find_by_barcode(cart.barcode)
+      cart.free_count = ( cart.count / 3 ).to_i
+      cart.save
     end
     redirect_to "/homepage/shop_list"
   end
 
+  def reduce_goods
+    cart = CartList.find_by_id(params[:id])
+    cart.sum = 0
+    cart.count = cart.count - 1
+    cart.sum = cart.count * cart.price
+    cart.save
+    if FreeGoods.find_by_barcode(cart.barcode)
+      cart.free_count = ( cart.count / 3 ).to_i
+      cart.save
+    end
+    if cart.count ==0
+      cart.delete
+      if FreeList.find_by_barcode(cart.barcode)
+       cart.delete
+        end
+      end
+    redirect_to :back
+  end
+  def jump_goods
+    goods = CartList.all
+    if goods.length == 0
+    redirect_to "/homepage/shop_list"
+    else
+      redirect_to "/homepage/shopping_cart"
+    end
+  end
+  def add_goods
+    cart = CartList.find_by_id(params[:id])
+    cart.sum = 0
+    cart.count = cart.count + 1
+    cart.sum = cart.count * cart.price
+    cart.save
+    if FreeGoods.find_by_barcode(cart.barcode)
+      cart.free_count = ( cart.count / 3 ).to_i
+      cart.save
+    end
+    redirect_to :back
+  end
+
   def shopping_cart
     @goods = CartList.all
-    @cart_num = @cart_num
-
-    @number = CartList.all
+    # @number = CartList.all
     @cart_num = 0
-    @number.each do |i|
+    @goods.each do |i|
       @cart_num += i.count
     end
     @sum_total = 0
     @goods.each do |k|
-      @sum_total += k.sum
+      @sum_total += k.sum - k.price * k.free_count.to_i
     end
   end
 
   def free_list
     @goods = CartList.all
     @free_goods = FreeGoods.all
-    for i in @goods
-      for j in @free_goods
-        if i.barcode == j.barcode
+    @goods.each do |i|
+      @free_goods.each do |j|
+      if i.barcode == j.barcode
           cart = FreeList.find_by_name(i.name)
           if  cart
             cart.count = (i.count / 3).to_i
@@ -77,6 +111,7 @@ class HomepageController < ApplicationController
             list.name = i.name
             list.barcode = i.barcode
             list.sort = i.sort
+            list.price = i.price
             list.count = (i.count / 3).to_i
             list.save
           end
@@ -91,9 +126,13 @@ class HomepageController < ApplicationController
     @free_list = FreeList.all
     @cart_num = @cart_num
 
+    @sum_total = 0
+    @save_money = 0
     @cart_num = 0
     @goods.each do |i|
       @cart_num += i.count
+      @save_money += i.price * i.free_count.to_i
+      @sum_total += i.sum - i.price * i.free_count.to_i
     end
   end
   def clear_goods

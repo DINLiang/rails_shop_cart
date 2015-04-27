@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150422033106) do
+ActiveRecord::Schema.define(version: 20150426092856) do
 
   create_table "cart_lists", force: true do |t|
     t.string   "sort"
@@ -24,6 +24,8 @@ ActiveRecord::Schema.define(version: 20150422033106) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "barcode"
+    t.integer  "freecount"
+    t.integer  "free_count"
   end
 
   create_table "free_goods", force: true do |t|
@@ -39,6 +41,7 @@ ActiveRecord::Schema.define(version: 20150422033106) do
     t.string   "barcode"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "price"
   end
 
   create_table "shop_lists", force: true do |t|
