@@ -1,14 +1,4 @@
 
-<div class="top">
-  <div class="lead">
-    <ul>
-      <li><%= link_to "Let's go", "/homepage/index" %></li>
-      <li><%= link_to "主页", "/homepage/index" %></li>
-      <li><%= link_to "商品列表", "/homepage/shop_list" %></li>
-      <li><a id="shop_cart" href="shopping_cart.html"><%= image_tag("shopping71.1.png") %>购物车(<span id="cart_num"><%= @cart_num %></span>)</a></li>
-    </ul>
-  </div>
-</div>
 <div class="all_page">
   <div class="good_list">购物清单</div>
   <table border="1" id="lists">
@@ -24,7 +14,7 @@
       <th><%= p.name %></th>
       <th><%= p.price %></th>
       <th><%= p.unit %></th>
-      <th><button style = "background-color: #ffffff;height: 30px;width: 30px;;border-bottom-left-radius: 5px;border-top-left-radius: 5px;border:1px solid lightgray"><%= link_to '-','/homepage/reduce_goods?id='+p.id.to_s %></button><input value= '<%= p.count %>'  style="width: 35px;height:26px;text-align:center;border:1px solid lightgray" ><button style = "background-color: white;height: 30px;width: 30px;;border-bottom-right-radius: 5px;border-top-right-radius: 5px;border:1px solid lightgray"><%= link_to '+','/homepage/add_goods?id=' + p.id.to_s %></button></th>
+      <th><button id = "ReduceGood" ><%= link_to '-','/homepage/reduce_goods?id='+p.id.to_s %></button><input id = "GoodNumber" value= '<%= p.count %>' ><button id = "AddGood" ><%= link_to '+','/homepage/add_goods?id=' + p.id.to_s %></button></th>
       <th><%= p.sum.to_s + '元' %></th>
     </tr>
         <% else %>
@@ -33,7 +23,7 @@
             <th><%= p.name %></th>
             <th><%= p.price %></th>
             <th><%= p.unit %></th>
-            <th><button style = "background-color: #ffffff;height: 30px;width: 30px;;border-bottom-left-radius: 5px;border-top-left-radius: 5px;border:1px solid lightgray"><%= link_to '-','/homepage/reduce_goods?id='+p.id.to_s  %></button><input value= '<%= p.count %>'  style="width: 35px;height:26px;text-align:center;border:1px solid lightgray" ><button style = "background-color: white;height: 30px;width: 30px;;border-bottom-right-radius: 5px;border-top-right-radius: 5px;border:1px solid lightgray"><%= link_to '+','/homepage/add_goods?id=' + p.id.to_s %></button></th>
+            <th><button id = "ReduceGoods" ><%= link_to '-','/homepage/reduce_goods?id='+p.id.to_s  %></button><input id = "GoodNumbers" value= '<%= p.count %>' ><button id = "AddGoods" ><%= link_to '+','/homepage/add_goods?id=' + p.id.to_s %></button></th>
               <th><%= (p.price * (p.count.to_i - p.free_count.to_i)).to_s + '元（原价：'+ p.sum.to_s + '元）' %></th>
            </tr>
         <% end %>
@@ -41,5 +31,5 @@
     </thead>
   </table>
   <div class="all_counts">总计：<span id="sum"><%= @sum_total %>元</span></div>
-  <button class="git" type="submit" onclick="location.href='pay_list.html'; get_cart()" style = "background-color:rgb(88, 135, 207);color:white;border-radius: 5px">付款</button>
+  <button class="git" type="submit" ><%= link_to '付款',"/homepage/pay_list" %></button>
 </div>

@@ -71,6 +71,9 @@
   padding: 10px 20px;
   font-size: 15px;
   margin-top: 80px;
+  background-color:rgb(88, 135, 207);
+  color:white;
+  border-radius: 5px;
 }
 .save_count
 {
@@ -99,4 +102,52 @@
 #time
 {
   margin-left: 25px;
+}
+#GoodsDown
+{
+  background-color: #ffffff;
+  height: 30px;width: 30px;
+  border-bottom-left-radius: 5px;
+  border-top-left-radius: 5px;
+  border:1px solid lightgray;
+}
+#GoodsAmount
+{
+  width: 35px;
+  height:26px;
+  text-align:center;
+  border:1px solid lightgray;
+}
+#GoodsUp
+{
+  background-color: white;
+  height: 30px;
+  width: 30px;
+  border-bottom-right-radius: 5px;
+  border-top-right-radius: 5px;
+  border: 1px solid lightgray;
+}
+#GoodDown
+{
+  background-color: #ffffff;
+  height: 30px;width: 30px;
+  border-bottom-left-radius: 5px;
+  border-top-left-radius: 5px;
+  border:1px solid lightgray;
+}
+#GoodAmount
+{
+  width: 35px;
+  height:26px;
+  text-align:center;
+  border:1px solid lightgray;
+}
+#GoodUp
+{
+  background-color: white;
+  height: 30px;
+  width: 30px;
+  border-bottom-right-radius: 5px;
+  border-top-right-radius: 5px;
+  border: 1px solid lightgray;
 }

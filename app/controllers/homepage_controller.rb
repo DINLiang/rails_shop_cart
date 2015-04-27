@@ -1,30 +1,23 @@
 class HomepageController < ApplicationController
   def index
-    @number = CartList.all
-    @cart_num = 0
-    @number.each do |i|
-      @cart_num += i.count
-    end
-    @cart_num = @cart_num
+    get_cart_num
   end
   def get_cart_num
-    @number = CartList.all
-    @cart_num = 0
-    @number.each do |i|
-      @cart_num += i.count
-    end
+    @goods = CartList.all
     @cart_num = @cart_num
+    @sum_total = 0
+    @save_money = 0
+    @cart_num = 0
+    @goods.each do |i|
+      @cart_num += i.count
+      @save_money += i.price * i.free_count.to_i
+      @sum_total += i.sum - i.price * i.free_count.to_i
+    end
   end
 
   def shop_list
      @list = ShopList.all
-     @cart_num = @cart_num
-
-     @number = CartList.all
-     @cart_num = 0
-     @number.each do |i|
-       @cart_num += i.count
-     end
+     get_cart_num
   end
 
   def add_cart
@@ -94,16 +87,7 @@ class HomepageController < ApplicationController
   end
 
   def shopping_cart
-    @goods = CartList.all
-    # @number = CartList.all
-    @cart_num = 0
-    @goods.each do |i|
-      @cart_num += i.count
-    end
-    @sum_total = 0
-    @goods.each do |k|
-      @sum_total += k.sum - k.price * k.free_count.to_i
-    end
+    get_cart_num
   end
 
   def free_list
@@ -132,22 +116,13 @@ class HomepageController < ApplicationController
 
   def pay_list
     free_list
-    @goods = CartList.all
     @free_list = FreeList.all
-    @cart_num = @cart_num
+    get_cart_num
 
-    @sum_total = 0
-    @save_money = 0
-    @cart_num = 0
-    @goods.each do |i|
-      @cart_num += i.count
-      @save_money += i.price * i.free_count.to_i
-      @sum_total += i.sum - i.price * i.free_count.to_i
-    end
   end
   def clear_goods
      CartList.all.delete_all
      FreeList.all.delete_all
+     redirect_to "/homepage/shop_list"
   end
-
 end

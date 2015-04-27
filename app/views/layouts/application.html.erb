@@ -7,7 +7,15 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-<%  %>
+<div class="top">
+  <ul>
+    <li><%= link_to "Let's go", "/homepage/index" %></li>
+    <li><%= link_to "主页", "/homepage/index" %></li>
+    <li><%= link_to "商品列表", "/homepage/shop_list" %></li>
+    <li><a id="shop_cart" href="/homepage/shopping_cart.html">
+      <%= image_tag("shopping71.1.png") %>购物车(<span id="cart_num"><%= @cart_num %></span>)</a></li>
+  </ul>
+</div>
 <%= yield %>
 
 </body>
