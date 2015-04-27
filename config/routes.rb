@@ -2,7 +2,7 @@ Shopcart::Application.routes.draw do
   get "homepage/index"
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
-
+  # ,:as=>'shop_list'
   # You can have the root of your site routed with "root"
    root 'homepage#index'
   get "/homepage/shop_list" => 'homepage#shop_list'
@@ -12,7 +12,6 @@ Shopcart::Application.routes.draw do
   post "/homepage/shopping_cart" => 'homepage#free_list'
   get "/homepage/reduce_goods"
   get "/homepage/add_goods"
-  post "/homepage/shopping_cart" => 'homepage#jump_goods'
   post "/homepage/pay_list" => 'homepage#clear_goods'
 
   # Example of regular route:
