@@ -60,7 +60,12 @@ class HomepageController < ApplicationController
        cart.delete
         end
       end
+    goods = CartList.all
+    if goods.length == 0
+      redirect_to "/homepage/shop_list"
+    else
     redirect_to :back
+    end
   end
   def jump_goods
     goods = CartList.all
