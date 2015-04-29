@@ -16,7 +16,8 @@
           <th><%= p.name %></th>
           <th><%= p.price %></th>
           <th><%= p.unit %></th>
-          <th><button><%= link_to '加入购物车','/homepage/add_cart?id='+p.id.to_s %></th></button>
+          <th><button id='<%= p.id %>' onclick = "get_cart_number(this.id)">加入购物车</button></th>
+          <!--<th><button><%= link_to '加入购物车', p ,method: :post  %></th></button>-->
         </tr>
     <% end %>
     </thead>

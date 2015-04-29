@@ -5,15 +5,17 @@ Shopcart::Application.routes.draw do
   # ,:as=>'shop_list'
   # You can have the root of your site routed with "root"
    root 'homepage#index'
-  get "/homepage/shop_list" => 'homepage#shop_list'
+  get "/homepage/shop_list" => 'homepage#shop_list' ,:as => 'shop_list'
   get "/homepage/shopping_cart" => 'homepage#shopping_cart'
   get "/homepage/pay_list" => 'homepage#pay_list'
   get  "/homepage/add_cart"
+  get "/get_cart_number" => 'homepage#get_cart_num'
   post "/homepage/shopping_cart" => 'homepage#free_list'
-  get "/homepage/reduce_goods"
+  get "/homepage/reduce_goods" => 'homepage#reduce_goods'
   get "/homepage/add_goods"
   post "/homepage/pay_list" => 'homepage#clear_goods'
   get "/homepage/clear_goods"
+  # post "get_cart_number" => 'homepage#get_cart_num'
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
