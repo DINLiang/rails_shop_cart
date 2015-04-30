@@ -8,12 +8,13 @@ Shopcart::Application.routes.draw do
   get "/homepage/shop_list" => 'homepage#shop_list' ,:as => 'shop_list'
   get "/homepage/shopping_cart" => 'homepage#shopping_cart'
   get "/homepage/pay_list" => 'homepage#pay_list'
-  get  "/homepage/add_cart"
+  post "/homepage/pay_list" => 'homepage#clear_goods'
+  # get  "/homepage/add_cart"
   get "/get_cart_number" => 'homepage#get_cart_num'
   post "/homepage/shopping_cart" => 'homepage#free_list'
+  get "/reduce_good" => 'homepage#get_carts_number'
   get "/homepage/reduce_goods" => 'homepage#reduce_goods'
   get "/homepage/add_goods"
-  post "/homepage/pay_list" => 'homepage#clear_goods'
   get "/homepage/clear_goods"
   # post "get_cart_number" => 'homepage#get_cart_num'
   # Example of regular route:

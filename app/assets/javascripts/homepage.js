@@ -21,4 +21,16 @@ function get_cart_number(x)
     //    //timeout: 1000
     //});
 }
+function reduce_goods(x)
+{
+    $.get("/reduce_good?id=" + x + '.json', function(data,sum){
+        $('#cart_num').text(data)
+        //$('#').text(sum)
+       })
+}
+//function add_goods(x) {
+//    $.get("/homepage/add_goods?id=" + x + '.json'
+//        //$('#cart_num').text(data)
+//    )
+//}
 

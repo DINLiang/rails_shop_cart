@@ -17,7 +17,6 @@ class HomepageController < ApplicationController
   end
 
   def get_cart_num
-
     add_cart
     @goods = CartList.all
     @sum_total = 0
@@ -34,6 +33,21 @@ class HomepageController < ApplicationController
       format.js
     end
   end
+   def get_carts_number
+     p "--------------------------"
+     reduce_goods
+     @goods = CartList.all
+     @cart_num = 0
+     @goods.each do |i|
+       @cart_num += i.count
+     end
+     @cart_num = @cart_num
+     respond_to do |format|
+       format.json { render :json =>  @cart_num }
+       format.js
+     end
+
+   end
 
   def shop_list
      @list = ShopList.all
@@ -64,10 +78,10 @@ class HomepageController < ApplicationController
       cart.free_count = ( cart.count / 3 ).to_i
       cart.save
     end
-    # redirect_to "/homepage/shop_list"
   end
 
   def reduce_goods
+    p "========================"
     cart = CartList.find_by_id(params[:id])
     cart.sum = 0
     cart.count = cart.count - 1
@@ -77,19 +91,18 @@ class HomepageController < ApplicationController
       cart.free_count = ( cart.count / 3 ).to_i
       cart.save
     end
-    if cart.count ==0
+    if cart.count == 0
       cart.delete
       if FreeList.find_by_barcode(cart.barcode)
        cart.delete
         end
     end
-    # redirect_to :back
-    goods = CartList.all
-    if goods.length == 0
-      redirect_to "/homepage/shop_list"
-    else
-      redirect_to "/homepage/shopping_cart"
-    end
+    # goods = CartList.all
+    # if goods.length == 0
+    #   redirect_to "/homepage/shop_list"
+    # else
+    #   redirect_to "/homepage/shopping_cart"
+    # end
   end
 
   def add_goods
@@ -106,8 +119,10 @@ class HomepageController < ApplicationController
   end
 
   def shopping_cart
-     get_cart_number
-    @goods = CartList.all
+    get_cart_number
+
+     @goods = CartList.all
+
   end
 
   def free_list
