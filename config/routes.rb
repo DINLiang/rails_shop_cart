@@ -12,6 +12,7 @@ Shopcart::Application.routes.draw do
   # get  "/homepage/add_cart"
   get "/get_cart_number" => 'homepage#get_cart_num'
   post "/homepage/shopping_cart" => 'homepage#free_list'
+  get "/add_goods" => 'homepage#get_carts_numbers'
   get "/reduce_good" => 'homepage#get_carts_number'
   get "/homepage/reduce_goods" => 'homepage#reduce_goods'
   get "/homepage/add_goods"

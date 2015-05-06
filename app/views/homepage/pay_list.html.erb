@@ -9,13 +9,13 @@
       <th id="unit">单位</th><th id="cart">数量</th><th id="count">小计</th>
     </tr>
     <% @goods.each do |p| %>
-        <% if p.free_count.to_i <= 0 %>
+        <% if p.free_count.to_i == 0 %>
             <tr>
               <th><%= p.sort %></th>
               <th><%= p.name %></th>
               <th><%= p.price %></th>
               <th><%= p.unit %></th>
-              <th><button id = "GoodDown" ><%= link_to '-','/homepage/reduce_goods?id='+p.id.to_s %></button><input id="GoodAmount" value= '<%= p.count %>' ><button id = "GoodUp" ><%= link_to '+','/homepage/add_goods?id=' + p.id.to_s %></button></th>
+              <th><%= p.count %></th>
               <th><%= p.sum.to_s + '元' %></th>
             </tr>
         <% else %>
@@ -24,7 +24,7 @@
               <th><%= p.name %></th>
               <th><%= p.price %></th>
               <th><%= p.unit %></th>
-              <th><button id="GoodsDown" ><%= link_to '-','/homepage/reduce_goods?id='+p.id.to_s %></button><input id="GoodsAmount" value= '<%= p.count %>' ><button id = "GoodsUp" ><%= link_to '+','/homepage/add_goods?id=' + p.id.to_s %></button></th>
+              <th><%= p.count %></th>
               <th><%= (p.price * (p.count.to_i - p.free_count.to_i)).to_s + '元（原价：'+ p.sum.to_s + '元）' %></th>
             </tr>
         <% end %>

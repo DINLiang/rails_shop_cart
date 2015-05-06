@@ -19,13 +19,9 @@ class HomepageController < ApplicationController
   def get_cart_num
     add_cart
     @goods = CartList.all
-    @sum_total = 0
-    @save_money = 0
     @cart_num = 0
     @goods.each do |i|
       @cart_num += i.count
-      @save_money += i.price * i.free_count.to_i
-      @sum_total += i.sum - i.price * i.free_count.to_i
     end
     @cart_num = @cart_num
     respond_to do |format|
@@ -33,21 +29,65 @@ class HomepageController < ApplicationController
       format.js
     end
   end
+
    def get_carts_number
-     p "--------------------------"
-     reduce_goods
+     CartList.reduce_good(params[:id])
      @goods = CartList.all
      @cart_num = 0
+     @save_sum = 0
+     @sum_total = 0
+     @total_count = 0
+     @good = CartList.find_by_id(params[:id])
+     if @good == nil
+       @total_count = 0
+       @goods.each do |i|
+       @cart_num += i.count
+       end
+       @total_count += @cart_num
+         respond_to do |format|
+         format.json { render :json => [0,@total_count] }
+         format.js
+       end
+     else
+       @count = @good.count
+     @sum = @good.sum
+     @free_count = @good.free_count
      @goods.each do |i|
        @cart_num += i.count
+       @save_sum = i.price * (i.count - i.free_count)
+       @sum_total += @save_sum
      end
-     @cart_num = @cart_num
+     @total_count += @cart_num
+     @save_sum = @good.price * (@good.count - @good.free_count)
      respond_to do |format|
-       format.json { render :json =>  @cart_num }
+       format.json { render :json => [params[:id],@cart_num, @count, @sum,@save_sum,@sum_total,@free_count,@total_count]}
        format.js
      end
-
+    end
    end
+
+   def get_carts_numbers
+    CartList.add_good(params[:id])
+    @goods = CartList.all
+    @cart_num = 0
+    @sum_total = 0
+    @total_count = 0
+    @good = CartList.find_by_id(params[:id])
+    @count = @good.count
+    @sum = @good.sum
+    @free_count = @good.free_count
+    @goods.each do |i|
+      @cart_num += i.count
+      @save_sum = i.price * (i.count - i.free_count)
+      @sum_total += @save_sum
+    end
+    @save_sum = @good.price * (@good.count - @good.free_count)
+    @total_count += @count
+    respond_to do |format|
+      format.json { render :json => [params[:id],@cart_num, @count, @sum,@save_sum,@sum_total,@free_count,@total_count] }
+      format.js
+    end
+  end
 
   def shop_list
      @list = ShopList.all
@@ -55,98 +95,27 @@ class HomepageController < ApplicationController
   end
 
   def add_cart
-    shop = ShopList.find_by_id(params[:id])
-    cart = CartList.find_by_name(shop.name)
-    if cart
-      cart.sum = 0
-      cart.count = cart.count + 1
-      cart.sum = cart.count * cart.price
-      cart.save
-    else
-      cart = CartList.new
-      cart.name = shop.name
-      cart.sort = shop.sort
-      cart.barcode = shop.barcode
-      cart.unit = shop.unit
-      cart.price = shop.price
-      cart.count = 1
-      cart.sum = shop.price
-      cart.barcode = shop.barcode
-      cart.save
-    end
-    if FreeGoods.find_by_barcode(cart.barcode)
-      cart.free_count = ( cart.count / 3 ).to_i
-      cart.save
-    end
+   id = params[:id]
+    CartList.add_carts(id)
   end
 
   def reduce_goods
-    p "========================"
-    cart = CartList.find_by_id(params[:id])
-    cart.sum = 0
-    cart.count = cart.count - 1
-    cart.sum = cart.count * cart.price
-    cart.save
-    if FreeGoods.find_by_barcode(cart.barcode)
-      cart.free_count = ( cart.count / 3 ).to_i
-      cart.save
-    end
-    if cart.count == 0
-      cart.delete
-      if FreeList.find_by_barcode(cart.barcode)
-       cart.delete
-        end
-    end
-    # goods = CartList.all
-    # if goods.length == 0
-    #   redirect_to "/homepage/shop_list"
-    # else
-    #   redirect_to "/homepage/shopping_cart"
-    # end
+    id = params[:id]
+    CartList.reduce_good(id)
   end
 
   def add_goods
-    cart = CartList.find_by_id(params[:id])
-    cart.sum = 0
-    cart.count = cart.count + 1
-    cart.sum = cart.count * cart.price
-    cart.save
-    if FreeGoods.find_by_barcode(cart.barcode)
-      cart.free_count = ( cart.count / 3 ).to_i
-      cart.save
-    end
-    redirect_to :back
+    id = params[:id]
+    CartList.add_good(id)
   end
 
   def shopping_cart
-    get_cart_number
-
+     get_cart_number
      @goods = CartList.all
-
   end
 
   def free_list
-    @goods = CartList.all
-    @free_goods = FreeGoods.all
-    @goods.each do |i|
-      @free_goods.each do |j|
-      if i.barcode == j.barcode
-          cart = FreeList.find_by_name(i.name)
-          if  cart
-            cart.count = (i.count / 3).to_i
-            cart.save
-          else
-            list = FreeList.new
-            list.name = i.name
-            list.barcode = i.barcode
-            list.sort = i.sort
-            list.price = i.price
-            list.count = (i.count / 3).to_i
-            list.save
-          end
-        end
-      end
-    end
+    FreeList.free_lists
   end
 
   def pay_list
@@ -154,6 +123,7 @@ class HomepageController < ApplicationController
     @free_list = FreeList.all
     get_cart_number
   end
+
   def clear_goods
      CartList.all.delete_all
      FreeList.all.delete_all

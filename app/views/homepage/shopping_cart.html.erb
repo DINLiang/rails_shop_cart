@@ -8,16 +8,14 @@
       <th id="unit">单位</th><th id="cart">数量</th><th id="count">小计</th>
     </tr>
     <% @goods.each do |p| %>
-        <% if p.free_count.to_i <= 0 %>
+        <% if p.free_count.to_i >= 1 %>
     <tr>
       <th><%= p.sort %></th>
       <th><%= p.name %></th>
       <th><%= p.price %></th>
       <th><%= p.unit %></th>
-      <!--<th><button id='<%= p.id %>' onclick = "get_cart_number(this.id)">加入购物车</button></th>-->
-      <th><button id="<%= p.id %>"  onclick = "reduce_goods(this.id)">-</button><input id = "GoodNumber" value= '<%= p.count %>' ><th><button id="<%= p.id %>"  onclick = "add_goods(this.id)">+</button></th>
-      <!--<th><button id = "ReduceGood" ><%= link_to '-','/homepage/reduce_goods?id='+p.id.to_s %></button><input id = "GoodNumber" value= '<%= p.count %>' ><button id = "AddGood" ><%= link_to '+','/homepage/add_goods?id=' + p.id.to_s %></button></th>-->
-      <th><%= p.sum.to_s + '元' %></th>
+      <th><button class = "ReduceGood" id="<%= p.id %>"  onclick = "reduce_goods(this.id)">-</button><input id = "<%= p.id %>GoodNumber"  value="<%= p.count %>" class="GoodNumber"  ><button id="<%= p.id %>" class = "AddGood" onclick = "add_goods(this.id)">+</button></th>
+      <th id = "<%= p.id %>save_sum"><%= (p.price * (p.count.to_i - p.free_count.to_i)).to_s + '元（原价：'+ p.sum.to_s + '元）' %></th>
     </tr>
         <% else %>
             <tr>
@@ -25,8 +23,8 @@
             <th><%= p.name %></th>
             <th><%= p.price %></th>
             <th><%= p.unit %></th>
-            <th><button id = "ReduceGoods" ><%= link_to '-','/homepage/reduce_goods?id='+p.id.to_s  %></button><input id = "GoodNumbers" value= '<%= p.count %>' ><button id = "AddGoods" ><%= link_to '+','/homepage/add_goods?id=' + p.id.to_s %></button></th>
-              <th><%= (p.price * (p.count.to_i - p.free_count.to_i)).to_s + '元（原价：'+ p.sum.to_s + '元）' %></th>
+              <th><button class = "ReduceGood" id="<%= p.id %>"  onclick = "reduce_goods(this.id)">-</button><input id = "<%= p.id %>GoodNumber"  value="<%= p.count %>" class="GoodNumber"  ><button id="<%= p.id %>" class = "AddGood" onclick = "add_goods(this.id)">+</button></th>
+              <th id = "<%= p.id %>self_sum"><%= p.sum.to_s + '元' %></th>
            </tr>
         <% end %>
     <% end %>
