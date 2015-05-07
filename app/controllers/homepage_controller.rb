@@ -13,80 +13,74 @@ class HomepageController < ApplicationController
       @save_money += i.price * i.free_count.to_i
       @sum_total += i.sum - i.price * i.free_count.to_i
     end
-    @cart_num = @cart_num
   end
 
   def get_cart_num
     add_cart
-    @goods = CartList.all
-    @cart_num = 0
-    @goods.each do |i|
-      @cart_num += i.count
-    end
-    @cart_num = @cart_num
+    get_cart_number
     respond_to do |format|
       format.json { render :json =>  @cart_num }
       format.js
     end
   end
 
-   def get_carts_number
+  def get_carts_number
      CartList.reduce_good(params[:id])
-     @goods = CartList.all
-     @cart_num = 0
-     @save_sum = 0
-     @sum_total = 0
-     @total_count = 0
-     @good = CartList.find_by_id(params[:id])
-     if @good == nil
-       @total_count = 0
-       @goods.each do |i|
-       @cart_num += i.count
-       end
-       @total_count += @cart_num
-         respond_to do |format|
-         format.json { render :json => [0,@total_count] }
-         format.js
-       end
-     else
-       @count = @good.count
-     @sum = @good.sum
-     @free_count = @good.free_count
-     @goods.each do |i|
-       @cart_num += i.count
-       @save_sum = i.price * (i.count - i.free_count)
-       @sum_total += @save_sum
-     end
-     @total_count += @cart_num
-     @save_sum = @good.price * (@good.count - @good.free_count)
-     respond_to do |format|
-       format.json { render :json => [params[:id],@cart_num, @count, @sum,@save_sum,@sum_total,@free_count,@total_count]}
-       format.js
-     end
+     get_carts
+  end
+
+  def get_goods
+    @goods = CartList.all
+    @cart_num = 0
+    @save_sum = 0
+    @sum_total = 0
+    @total_count = 0
+  end
+
+  def get_carts
+    get_goods
+    @good = CartList.find_by_id(params[:id])
+    if @good == nil
+      make_jump
+    else
+      make_show
     end
-   end
+  end
+
+def make_jump
+  @total_count = 0
+  @goods.each do |i|
+    @cart_num += i.count
+  end
+  @total_count += @cart_num
+  respond_to do |format|
+    format.json { render :json => [0,@total_count] }
+    format.js
+  end
+end
+def make_show
+  @count = @good.count
+  @sum = @good.sum
+  @free_count = @good.free_count
+  @goods.each do |i|
+    @cart_num += i.count
+    @save_sum = i.price * (i.count - i.free_count)
+    @sum_total += @save_sum
+  end
+  show_goods
+end
+  def show_goods
+    @total_count += @cart_num
+    @save_sum = @good.price * (@good.count - @good.free_count)
+    respond_to do |format|
+      format.json { render :json => [params[:id],@cart_num, @count, @sum,@save_sum,@sum_total,@free_count,@total_count]}
+      format.js
+    end
+  end
 
    def get_carts_numbers
     CartList.add_good(params[:id])
-    @goods = CartList.all
-    @cart_num = 0
-    @sum_total = 0
-    @total_count = 0
-    @good = CartList.find_by_id(params[:id])
-    @count = @good.count
-    @sum = @good.sum
-    @free_count = @good.free_count
-    @goods.each do |i|
-      @cart_num += i.count
-      @save_sum = i.price * (i.count - i.free_count)
-      @sum_total += @save_sum
-    end
-    @save_sum = @good.price * (@good.count - @good.free_count)
-    @total_count += @count
-    respond_to do |format|
-      format.json { render :json => [params[:id],@cart_num, @count, @sum,@save_sum,@sum_total,@free_count,@total_count] }
-      format.js
-    end
+    get_carts
   end
 
   def shop_list
