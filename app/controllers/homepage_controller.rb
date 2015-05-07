@@ -28,10 +28,10 @@ class HomepageController < ApplicationController
 
   def get_goods
     @goods = CartList.all
-    @cart_num = 0
-    @save_sum = 0
-    @sum_total = 0
-    @total_count = 0
+    @cart_num = @save_sum = @sum_total = @total_count =0
+    # @save_sum = 0
+    # @sum_total = 0
+    # @total_count = 0
   end
 
   def get_carts
@@ -89,18 +89,15 @@ end
   end
 
   def add_cart
-   id = params[:id]
-    CartList.add_carts(id)
+    CartList.add_carts(params[:id])
   end
 
   def reduce_goods
-    id = params[:id]
-    CartList.good(id,true)
+    CartList.good(params[:id],true)
   end
 
   def add_goods
-    id = params[:id]
-    CartList.good(id,false)
+    CartList.good(params[:id],false)
   end
 
   def shopping_cart
