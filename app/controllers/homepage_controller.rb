@@ -4,13 +4,10 @@ class HomepageController < ApplicationController
   end
 
   def get_cart_number
-    @goods = CartList.all
-    @sum_total = 0
-    @save_money = 0
-    @cart_num = 0
+    get_goods
     @goods.each do |i|
       @cart_num += i.count
-      @save_money += i.price * i.free_count.to_i
+      @save_sum += i.price * i.free_count.to_i
       @sum_total += i.sum - i.price * i.free_count.to_i
     end
   end
@@ -25,7 +22,7 @@ class HomepageController < ApplicationController
   end
 
   def get_carts_number
-     CartList.reduce_good(params[:id])
+     CartList.good(params[:id],true)
      get_carts
   end
 
@@ -44,6 +41,7 @@ class HomepageController < ApplicationController
       make_jump
     else
       make_show
+      show_goods
     end
   end
 
@@ -53,6 +51,9 @@ def make_jump
     @cart_num += i.count
   end
   @total_count += @cart_num
+  if @total_count == 0
+    FreeList.all.delete_all
+  end
   respond_to do |format|
     format.json { render :json => [0,@total_count] }
     format.js
@@ -67,7 +68,6 @@ def make_show
     @save_sum = i.price * (i.count - i.free_count)
     @sum_total += @save_sum
   end
-  show_goods
 end
   def show_goods
     @total_count += @cart_num
@@ -79,7 +79,7 @@ end
   end
 
    def get_carts_numbers
-    CartList.add_good(params[:id])
+    CartList.good(params[:id],false)
     get_carts
   end
 
@@ -95,12 +95,12 @@ end
 
   def reduce_goods
     id = params[:id]
-    CartList.reduce_good(id)
+    CartList.good(id,true)
   end
 
   def add_goods
     id = params[:id]
-    CartList.add_good(id)
+    CartList.good(id,false)
   end
 
   def shopping_cart

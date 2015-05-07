@@ -9,7 +9,6 @@ Shopcart::Application.routes.draw do
   get "/homepage/shopping_cart" => 'homepage#shopping_cart'
   get "/homepage/pay_list" => 'homepage#pay_list'
   post "/homepage/pay_list" => 'homepage#clear_goods'
-  # get  "/homepage/add_cart"
   get "/get_cart_number" => 'homepage#get_cart_num'
   post "/homepage/shopping_cart" => 'homepage#free_list'
   get "/add_goods" => 'homepage#get_carts_numbers'

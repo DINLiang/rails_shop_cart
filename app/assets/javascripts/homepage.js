@@ -10,6 +10,9 @@ function reduce_goods(x)
         if(data[0] == 0){
             window.location = '/homepage/shopping_cart'
         }
+        if(data[2] == 0){
+            window.location = '/homepage/shopping_cart'
+        }
         if(data[1] == 0){
             window.location = '/homepage/shop_list'
         }
